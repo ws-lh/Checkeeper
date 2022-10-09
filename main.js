@@ -4,11 +4,13 @@ function uniqueArray4(a) {
 
 var pills = document.getElementsByClassName("pill");
 var vals = [];
+var all = document.getElementsByClassName("check");
 [].forEach.call(pills, pill => {
-  try {
-    vals.push(pill.innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim());
-  } catch (e) {}
+  vals.push(pill.innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim());
 });
+if (all.length > pills.length) {
+  vals.push("Blank");
+}
 vals = uniqueArray4(vals);
 var toPrepend = document.getElementsByClassName("pt-5")[0];
 vals.forEach(val => {
@@ -29,6 +31,10 @@ function select(e) {
       if (status.toUpperCase() == st.toUpperCase()) {
         check.querySelector(".checkbox-box").click();
       }
-    } catch (e) {}
+    } catch (e) {
+      if (st == "Blank") {
+        check.querySelector(".checkbox-box").click();
+      }
+    }
   });
 }
