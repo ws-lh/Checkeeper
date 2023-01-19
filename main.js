@@ -2,15 +2,16 @@ function uniqueArray4(a) {
   return [...new Set(a)];
 }
 
-var pills = document.getElementsByClassName("pill");
+/* var pills = document.getElementsByClassName("pill"); */
 var vals = [];
 var all = document.getElementsByClassName("check");
-[].forEach.call(pills, pill => {
-  vals.push(pill.innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim());
+[].forEach.call(all, check => {
+  var pill = (check.querySelector('.pill').innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim() || "Blank Status") + " - " + (check.querySelector('.memo').innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim() == "\x3C!----> \x3C!---->" ? "Blank Memo" : check.querySelector('.memo').innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim());
+  vals.push(pill);
 });
-if (all.length > pills.length) {
+/* if (all.length > pills.length) {
   vals.push("Blank");
-}
+} */
 vals = uniqueArray4(vals);
 var toPrepend = document.getElementsByClassName("pt-5")[0];
 vals.forEach(val => {
@@ -23,18 +24,14 @@ vals.forEach(val => {
 
 
 function select(e) {
-  var st = e.srcElement.innerHTML;
+  var st = e.srcElement.innerHTML.split(" - ");
   var all = document.getElementsByClassName("check");
   [].forEach.call(all, check => {
-    try {
-      var status = check.querySelector(".pill").innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim();
-      if (status.toUpperCase() == st.toUpperCase()) {
-        check.querySelector(".checkbox-box").click();
-      }
-    } catch (e) {
-      if (st == "Blank") {
-        check.querySelector(".checkbox-box").click();
-      }
+    var status = check.querySelector(".pill").innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim();
+    var memo = check.querySelector(".memo").innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim() == "\x3C!----> \x3C!---->" ? "Blank Memo" : check.querySelector(".memo").innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim();
+    if ((status.toUpperCase() || null) == (st[0].toUpperCase() == "Blank Status" ? null : st[0].toUpperCase()) &&
+      (memo.toUpperCase() || null) == (st[1].toUpperCase() == "Blank Memo" ? null : st[1].toUpperCase())) {
+      check.querySelector(".checkbox-box").click();
     }
   });
 }
