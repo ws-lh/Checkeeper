@@ -6,7 +6,7 @@ function uniqueArray4(a) {
 var vals = [];
 var all = document.getElementsByClassName("check");
 [].forEach.call(all, check => {
-  var pill = (check.querySelector('.pill').innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim() || "Blank Status") + " - " + (check.querySelector('.memo').innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim() == "\x3C!----> \x3C!---->" ? "Blank Memo" : check.querySelector('.memo').innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim());
+  var pill = (check.querySelector('.pill')?.innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim() || "Blank Status") + " - " + (check.querySelector('.memo').innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim() == "\x3C!----> \x3C!---->" ? "Blank Memo" : check.querySelector('.memo').innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim());
   vals.push(pill);
 });
 /* if (all.length > pills.length) {
@@ -27,10 +27,10 @@ function select(e) {
   var st = e.srcElement.innerHTML.split(" - ");
   var all = document.getElementsByClassName("check");
   [].forEach.call(all, check => {
-    var status = check.querySelector(".pill").innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim();
+    var status = check.querySelector(".pill")?.innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim().toUpperCase();
     var memo = check.querySelector(".memo").innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim() == "\x3C!----> \x3C!---->" ? "Blank Memo" : check.querySelector(".memo").innerHTML.replace(/(\r\n|\n|\r)/gm, "").split("•")[1].trim();
-    if ((status.toUpperCase() || null) == (st[0].toUpperCase() == "Blank Status" ? null : st[0].toUpperCase()) &&
-      (memo.toUpperCase() || null) == (st[1].toUpperCase() == "Blank Memo" ? null : st[1].toUpperCase())) {
+    if ((status?.toUpperCase() == '' ? null : status?.toUpperCase()) == (st[0] == "Blank Status" ? null : st[0]?.toUpperCase()) &&
+      (memo?.toUpperCase() == '' ? null : memo?.toUpperCase()) == (st[1] == "Blank Memo" ? null : st[1]?.toUpperCase())) {
       check.querySelector(".checkbox-box").click();
     }
   });
